@@ -31,11 +31,11 @@ WORKDIR /root
 # Install Homebrew
 RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ENV PATH="$PATH:/home/linuxbrew/.linuxbrew/bin:/opt/mssql-tools18/bin"
-# # Install istioctl.sh
-# RUN brew install istioctl
-# RUN istioctl
-# # Install K9S
-# RUN brew install derailed/k9s/k9s
+# # Install rancher v2.9.0
+RUN wget https://github.com/rancher/cli/releases/download/v2.9.0/rancher-linux-amd64-v2.9.0.tar.gz
+RUN tar xzf rancher-linux-amd64-v2.9.0.tar.gz && cp rancher-v2.9.0/rancher /usr/bin
+COPY 80-rancher /etc/update-motd.d/80-rancher
+RUN chmod 755 /etc/update-motd.d/80-rancher
 
 # Install Terraform Istioctl Kubectl Helm & K9s
 RUN brew tap hashicorp/tap && brew install hashicorp/tap/terraform && brew update && brew install istioctl && brew install helm && brew install derailed/k9s/k9s && brew install kubernetes-cli && brew upgrade hashicorp/tap/terraform
